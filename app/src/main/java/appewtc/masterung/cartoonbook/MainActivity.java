@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -22,12 +23,17 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private MyManage myManage;
     private static final String urlJSON = "http://swiftcodingthai.com/gun/get_user_master.php";
-
+    private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Bind Widget
+        userEditText = (EditText) findViewById(R.id.editText7);
+        passwordEditText = (EditText) findViewById(R.id.editText8);
 
         myManage = new MyManage(this);
 
@@ -41,6 +47,28 @@ public class MainActivity extends AppCompatActivity {
         mySynchronizeJSON();
 
     }   // Main Method
+
+    public void clickSignIn(View view) {
+
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
+
+        //Check Space
+        if (userString.equals("") || passwordString.equals("")) {
+
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, "มีช่องว่างคะ ?",
+                    "กรุณากรอกทุกช่อง คะ");
+
+        } else {
+            checkUserAnPassword();
+        }
+
+    }   // clickSignIn
+
+    private void checkUserAnPassword() {
+
+    }   // checkUserAnPass
 
     private void mySynchronizeJSON() {
         ConnectedUSER connectedUSER = new ConnectedUSER(MainActivity.this, urlJSON);
