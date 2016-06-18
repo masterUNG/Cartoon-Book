@@ -4,4 +4,7 @@
     <string name="signin">Sign In</string>
     <string name="signup">Sign Up</string>
 
+    <string name="for_guest">สมัครสมาชิควันนี่</string>
+    <string name="for_guest2">ได้แต้มฟรี 50 แต้ม</string>
+
 </resources>

@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
     }   // Main Method
 
+    public void clickGuest(View view) {
+        Intent intent = new Intent(MainActivity.this, CartoonActivity.class);
+        intent.putExtra("Guest", false);
+        startActivity(intent);
+    }
+
     public void clickSignIn(View view) {
 
         userString = userEditText.getText().toString().trim();
