@@ -149,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
                     if (passwordString.equals(userLoginStrings[6])) {
                         Toast.makeText(context, "Welcome " + userLoginStrings[1] + " " + userLoginStrings[2],
                                 Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(context, CartoonActivity.class);
+                        intent.putExtra("Login", userLoginStrings);
+                        startActivity(intent);
+                        finish();
+
                     } else {
                         MyAlert myAlert = new MyAlert();
                         myAlert.myDialog(context, "Password False",
