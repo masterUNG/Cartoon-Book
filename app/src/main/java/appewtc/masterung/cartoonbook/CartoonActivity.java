@@ -2,8 +2,8 @@ package appewtc.masterung.cartoonbook;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CartoonActivity extends AppCompatActivity {
 
@@ -88,6 +91,36 @@ public class CartoonActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.d("18TestV2", "JSON ==> " + s);
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+
+                String[] nameStrings = new String[jsonArray.length()];
+                String[] descripStrings = new String[jsonArray.length()];
+                String[] stocktrings = new String[jsonArray.length()];
+                String[] pricetrings = new String[jsonArray.length()];
+                String[] iconStrings = new String[jsonArray.length()];
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    nameStrings[i] = jsonObject.getString("Name");
+                    descripStrings[i] = jsonObject.getString("Description");
+                    stocktrings[i] = jsonObject.getString("Stock");
+                    pricetrings[i] = jsonObject.getString("Price");
+                    iconStrings[i] = jsonObject.getString("Cover");
+
+                }   //for
+
+                CartoonAdapter cartoonAdapter = new CartoonAdapter(context,
+                        iconStrings, nameStrings, descripStrings, pricetrings, stocktrings);
+                listView.setAdapter(cartoonAdapter);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }   // onPost
 

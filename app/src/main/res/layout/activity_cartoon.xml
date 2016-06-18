@@ -44,5 +44,5 @@
         android:layout_above="@+id/button4"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:background="#82ffffff" />
+        android:background="#32ffffff" />
 </RelativeLayout>
