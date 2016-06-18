@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -116,6 +118,23 @@ public class CartoonActivity extends AppCompatActivity {
                 CartoonAdapter cartoonAdapter = new CartoonAdapter(context,
                         iconStrings, nameStrings, descripStrings, pricetrings, stocktrings);
                 listView.setAdapter(cartoonAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        if (guestABoolean) {
+                            //from User
+
+                        } else {
+                            //From Guest
+                            MyAlert myAlert = new MyAlert();
+                            myAlert.myDialog(context, "ยังไม่ได้ Login",
+                                    "กรุณา Login ก่อน คะ ?");
+                        }
+
+                    }   // onItemClick
+                });
 
 
             } catch (Exception e) {
