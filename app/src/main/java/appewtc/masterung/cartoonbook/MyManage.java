@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Created by masterUNG on 6/17/2016 AD.
@@ -13,6 +14,7 @@ public class MyManage {
     //Explicit
     private MyOpenHelper myOpenHelper;
     private SQLiteDatabase writeSqLiteDatabase, readSqLiteDatabase;
+    private String[] resultStrings;
 
     public static final String user_table = "userTABLE";
     public static final String column_id = "_id";
@@ -36,7 +38,7 @@ public class MyManage {
 
         try {
 
-            String[] resultStrings = null;
+            resultStrings = null;
             Cursor cursor = readSqLiteDatabase.query(user_table,
                     new String[]{column_id, column_Name,
                             column_Surname, column_Address,
@@ -46,17 +48,29 @@ public class MyManage {
                     new String[]{String.valueOf(strUser)},
                     null, null, null, null);
 
+
+
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     for (int i=0;i<cursor.getColumnCount();i++) {
+                        resultStrings = new String[cursor.getColumnCount()];
                         resultStrings[i] = cursor.getString(i);
-                    }
-                }
+                        Log.d("18June", "resultStrings " + i + " ==> " + resultStrings[i]);
+                    }   // for
+                }   //if
+            }   // if
+
+            //cursor.close();
+
+            Log.d("18JuneV2", "resultStrings lenght ==> " + resultStrings.length);
+            for (int i=0;i<resultStrings.length;i++) {
+                Log.d("18JuneV2", "result " + i + " ==>  " + resultStrings[i]);
             }
-            cursor.close();
+
             return resultStrings;
 
         } catch (Exception e) {
+            Log.d("18June", "e ==> " + e.toString());
             return null;
         }
 

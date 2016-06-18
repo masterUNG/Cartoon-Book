@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String urlJSON = "http://swiftcodingthai.com/gun/get_user_master.php";
     private EditText userEditText, passwordEditText;
     private String userString, passwordString;
+    private String[] userLoginStrings = new String[8];
+    private boolean statusLogin = false; // false ==> userFalse, true ==> haveUser
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //Delete All SQLite
         deleteAllSQLite();
 
-        mySynchronizeJSON();
+        //mySynchronizeJSON();
 
     }   // Main Method
 
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
     }   // clickSignIn
 
     private void checkUserAnPassword() {
+
+        ConnectedUSER connectedUSER = new ConnectedUSER(this, urlJSON);
+        connectedUSER.execute();
+
 
     }   // checkUserAnPass
 
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.d("17JuneV1", "JSON ==> " + s);
+            Toast.makeText(context, "โหลดข้อมูล จาก Server เรียบร้อยแล้ว",
+                    Toast.LENGTH_SHORT).show();
 
             try {
 
@@ -113,21 +121,47 @@ public class MainActivity extends AppCompatActivity {
                 for (int i=0;i<jsonArray.length();i++) {
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String strId = jsonObject.getString("id");
-                    String strName = jsonObject.getString("Name");
-                    String strSurname = jsonObject.getString("Surname");
-                    String strAddress = jsonObject.getString("Address");
-                    String strPhone = jsonObject.getString("Phone");
-                    String strUser = jsonObject.getString("User");
-                    String strPassword = jsonObject.getString("Password");
-                    String strMoney = jsonObject.getString("Money");
-                    myManage.addNewUser(strId, strName, strSurname, strAddress,
-                            strPhone, strUser, strPassword, strMoney);
+
+                    if (userString.equals(jsonObject.getString("User"))) {
+
+                        userLoginStrings[0] = jsonObject.getString("id");
+                        userLoginStrings[1] = jsonObject.getString("Name");
+                        userLoginStrings[2] = jsonObject.getString("Surname");
+                        userLoginStrings[3] = jsonObject.getString("Address");
+                        userLoginStrings[4] = jsonObject.getString("Phone");
+                        userLoginStrings[5] = jsonObject.getString("User");
+                        userLoginStrings[6] = jsonObject.getString("Password");
+                        userLoginStrings[7] = jsonObject.getString("Money");
+                        statusLogin = true;
+
+                    }   // if
 
                 }   //for
 
-                Toast.makeText(context, "โหลดข้อมูล จาก Server เรียบร้อยแล้ว",
-                        Toast.LENGTH_SHORT).show();
+                for (int i=0;i<userLoginStrings.length;i++) {
+                    Log.d("18Test", "userLogin (" + i + ") = " + userLoginStrings[i]);
+                }
+                Log.d("18Test", "statusLogin ==> " + statusLogin);
+
+                if (statusLogin) {
+                    //Check Password
+
+                    if (passwordString.equals(userLoginStrings[6])) {
+                        Toast.makeText(context, "Welcome " + userLoginStrings[1] + " " + userLoginStrings[2],
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        MyAlert myAlert = new MyAlert();
+                        myAlert.myDialog(context, "Password False",
+                                "Please Try Again Password False");
+                    }
+
+                } else {
+                    MyAlert myAlert = new MyAlert();
+                    myAlert.myDialog(context, "ไม่มี User นี้",
+                            "ไม่มี " + userString + " ในฐานข้อมูล ของเรา");
+                }
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
