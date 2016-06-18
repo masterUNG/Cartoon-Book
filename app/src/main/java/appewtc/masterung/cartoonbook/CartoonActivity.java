@@ -52,6 +52,23 @@ public class CartoonActivity extends AppCompatActivity {
 
     }   // Main Method
 
+    public void clickConfirmOrder(View view) {
+
+        if (bolGuest) {
+            //User
+
+
+        } else {
+            //Guest
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, "ยังไม่ได้ Login",
+                    "กรุณา Login ก่อนคะ");
+        }
+
+
+    }   // clickConfirm
+
+
     private void createListCartoon() {
         ConnectedCartoon connectedCartoon = new ConnectedCartoon(this, urlJSON, bolGuest);
         connectedCartoon.execute();
