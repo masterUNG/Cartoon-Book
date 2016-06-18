@@ -152,7 +152,7 @@ public class CartoonActivity extends AppCompatActivity {
 
     }   // Async Class
 
-    private void confirmdialog(int ProductID, String nameProduce) {
+    private void confirmdialog(final int ProductID, String nameProduce) {
 
         CharSequence[] charSequences = new CharSequence[]{"1 เล่ม", "2 เล่ม", "3 เล่ม", "4 เล่ม",
                 "5 เล่ม", "6 เล่ม", "7 เล่ม", "8 เล่ม"};
@@ -164,7 +164,12 @@ public class CartoonActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 amountString = Integer.toString(i + 1);
+                Log.d("18TestV3", "ProductID ==> " + ProductID);
                 Log.d("18TestV3", "amountString ==> " + amountString);
+
+                MyManage myManage = new MyManage(CartoonActivity.this);
+                myManage.addOrder(Integer.toString(ProductID), amountString);
+
                 dialogInterface.dismiss();
             }   // onClick
         });
