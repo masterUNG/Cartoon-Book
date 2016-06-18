@@ -25,6 +25,8 @@ public class CartoonActivity extends AppCompatActivity {
     private String[] loginStrings;
     private boolean bolGuest;
     private String urlJSON = "http://swiftcodingthai.com/gun/get_cartoon.php";
+    String[] nameStrings, descripStrings, stockStrings
+            , priceStrings, iconStrings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class CartoonActivity extends AppCompatActivity {
         private String urlJSONString;
         private boolean guestABoolean;
 
+
         public ConnectedCartoon(Context context,
                                 String urlJSONString,
                                 boolean guestABoolean) {
@@ -98,25 +101,25 @@ public class CartoonActivity extends AppCompatActivity {
 
                 JSONArray jsonArray = new JSONArray(s);
 
-                String[] nameStrings = new String[jsonArray.length()];
-                String[] descripStrings = new String[jsonArray.length()];
-                String[] stocktrings = new String[jsonArray.length()];
-                String[] pricetrings = new String[jsonArray.length()];
-                String[] iconStrings = new String[jsonArray.length()];
+                nameStrings = new String[jsonArray.length()];
+                descripStrings = new String[jsonArray.length()];
+                stockStrings = new String[jsonArray.length()];
+                priceStrings = new String[jsonArray.length()];
+                iconStrings = new String[jsonArray.length()];
 
                 for (int i = 0; i < jsonArray.length(); i++) {
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     nameStrings[i] = jsonObject.getString("Name");
                     descripStrings[i] = jsonObject.getString("Description");
-                    stocktrings[i] = jsonObject.getString("Stock");
-                    pricetrings[i] = jsonObject.getString("Price");
+                    stockStrings[i] = jsonObject.getString("Stock");
+                    priceStrings[i] = jsonObject.getString("Price");
                     iconStrings[i] = jsonObject.getString("Cover");
 
                 }   //for
 
                 CartoonAdapter cartoonAdapter = new CartoonAdapter(context,
-                        iconStrings, nameStrings, descripStrings, pricetrings, stocktrings);
+                        iconStrings, nameStrings, descripStrings, priceStrings, stockStrings);
                 listView.setAdapter(cartoonAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -125,6 +128,7 @@ public class CartoonActivity extends AppCompatActivity {
 
                         if (guestABoolean) {
                             //from User
+                           // confirmdialog((i + 1), nameStrings[i]);
 
                         } else {
                             //From Guest
