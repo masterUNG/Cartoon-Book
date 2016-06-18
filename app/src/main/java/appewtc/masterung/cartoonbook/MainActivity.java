@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(context, CartoonActivity.class);
+                        intent.putExtra("Guest", true);
                         intent.putExtra("Login", userLoginStrings);
                         startActivity(intent);
                         finish();
