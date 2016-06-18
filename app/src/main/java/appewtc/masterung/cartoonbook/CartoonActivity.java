@@ -1,6 +1,8 @@
 package appewtc.masterung.cartoonbook;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +27,9 @@ public class CartoonActivity extends AppCompatActivity {
     private String[] loginStrings;
     private boolean bolGuest;
     private String urlJSON = "http://swiftcodingthai.com/gun/get_cartoon.php";
-    String[] nameStrings, descripStrings, stockStrings
+    private String[] nameStrings, descripStrings, stockStrings
             , priceStrings, iconStrings;
+    private String amountString, productIDString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +131,7 @@ public class CartoonActivity extends AppCompatActivity {
 
                         if (guestABoolean) {
                             //from User
-                           // confirmdialog((i + 1), nameStrings[i]);
+                           confirmdialog((i + 1), nameStrings[i]);
 
                         } else {
                             //From Guest
@@ -148,5 +151,32 @@ public class CartoonActivity extends AppCompatActivity {
         }   // onPost
 
     }   // Async Class
+
+    private void confirmdialog(int ProductID, String nameProduce) {
+
+        CharSequence[] charSequences = new CharSequence[]{"1 เล่ม", "2 เล่ม", "3 เล่ม", "4 เล่ม",
+                "5 เล่ม", "6 เล่ม", "7 เล่ม", "8 เล่ม"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle(nameProduce);
+        builder.setSingleChoiceItems(charSequences, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                amountString = Integer.toString(i + 1);
+                Log.d("18TestV3", "amountString ==> " + amountString);
+                dialogInterface.dismiss();
+            }   // onClick
+        });
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+
+
+    }   // confirmdialog
 
 }   // Main Class
