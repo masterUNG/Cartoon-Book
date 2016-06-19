@@ -3,6 +3,7 @@ package appewtc.masterung.cartoonbook;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -65,6 +66,10 @@ public class CartoonActivity extends AppCompatActivity {
             Log.d("19JuneV1", "cursor.getcount ==> " + cursor.getCount());
 
             if (cursor.getCount() > 0) {
+
+                Intent intent = new Intent(CartoonActivity.this, ConfirmActivity.class);
+                intent.putExtra("Login", loginStrings);
+                startActivity(intent);
 
             } else {
                 MyAlert myAlert = new MyAlert();
