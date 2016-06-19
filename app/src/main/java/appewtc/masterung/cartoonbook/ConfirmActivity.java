@@ -73,12 +73,21 @@ public class ConfirmActivity extends AppCompatActivity {
             productIDStrings[i] = cursor.getString(cursor.getColumnIndex("ProductID"));
             amountStrings[i] = cursor.getString(cursor.getColumnIndex("Amount"));
             productNameStrings[i] = mySearch(0, productIDStrings[i]);
+            productPriceStrings[i] = mySearch(1, productIDStrings[i]);
 
+            int intPrice = Integer.parseInt(productPriceStrings[i]);
+            int intAmount = Integer.parseInt(amountStrings[i]);
+            int intTotal = intPrice * intAmount;
+            totalStrings[i] = Integer.toString(intTotal);
 
             Log.d("19JuneV5", "productName(" + i + ") = " + productNameStrings[i]);
             cursor.moveToNext();
         }   // for
+        cursor.close();
 
+        ConfirmAdapter confirmAdapter = new ConfirmAdapter(this,
+                productNameStrings, productPriceStrings, amountStrings, totalStrings);
+        listView.setAdapter(confirmAdapter);
 
 
     }   // createListView
