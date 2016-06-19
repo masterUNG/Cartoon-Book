@@ -1,7 +1,10 @@
 package appewtc.masterung.cartoonbook;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +57,45 @@ public class ConfirmActivity extends AppCompatActivity {
 
     private void createListView() {
 
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
+                MODE_PRIVATE, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM orderTABLE", null);
+        cursor.moveToFirst();
+
+        productIDStrings = new String[cursor.getCount()];
+        amountStrings = new String[cursor.getCount()];
+        productNameStrings = new String[cursor.getCount()];
+        productPriceStrings = new String[cursor.getCount()];
+        totalStrings = new String[cursor.getCount()];
+
+        for (int i=0;i<cursor.getCount();i++) {
+
+            productIDStrings[i] = cursor.getString(cursor.getColumnIndex("ProductID"));
+            amountStrings[i] = cursor.getString(cursor.getColumnIndex("Amount"));
+            productNameStrings[i] = mySearch(0, productIDStrings[i]);
+
+
+            Log.d("19JuneV5", "productName(" + i + ") = " + productNameStrings[i]);
+            cursor.moveToNext();
+        }   // for
+
+
+
+    }   // createListView
+
+    private String mySearch(int intIndex, String productIDString) {
+
+        String result = null;
+        String[] columnStrings = new String[]{"Name", "Price"};
+
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
+                MODE_PRIVATE, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM productTABLE WHERE _id = " + "'" + productIDString + "'", null);
+        cursor.moveToFirst();
+
+        result = cursor.getString(cursor.getColumnIndex(columnStrings[intIndex]));
+
+        return result;
     }
 
 

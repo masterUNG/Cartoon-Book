@@ -51,6 +51,11 @@ public class CartoonActivity extends AppCompatActivity {
             checkMoney();
         }
 
+        //Delete SQLite
+        SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
+                MODE_PRIVATE, null);
+        sqLiteDatabase.delete(MyManage.product_table, null, null);
+
         createListCartoon();
 
     }   // Main Method
